@@ -21,24 +21,21 @@ function TodoForm({addTodo}) {
         console.log('tttt')
         e.preventDefault();
         
-        if (!text) {alert('please filled in product name') 
-        return; }
-        if (!startDate) {alert('please filled in start date')
-        return }
-        if (!endDate) {alert('please filled in end date')
-        return;}
-        console.log(text)
         addTodo(text, startDate, endDate);
         setText('')
         setStartDate('')
         setEndDate('')
-        return false;
+
     }
+
     return (
         <form onSubmit={handleSubmit}>
-            <input type='text' className="input" value={text} onChange={e => setText(e.target.value)} placeholder='product name'/>
-            <input type='text' className="input" value={startDate} onChange={e => setStartDate(e.target.value)} placeholder='start date'/>
-            <input type='text' className="input" value={endDate} onChange={e => setEndDate(e.target.value)} placeholder='end date'/>
+            <input type='text' className="input" value={text} onChange={e => setText(e.target.value)} placeholder='product name' required/>
+            <input type='text' className="input" value={startDate} onChange={e => setStartDate(e.target.value)} placeholder='start date' 
+                    onFocus={e => e.target.type = 'date'} onBlur={e => e.target.type = 'text'}required/>
+            <input type='text' className="input" value={endDate} 
+                    min = {startDate} onChange={e => setEndDate(e.target.value)} placeholder='end date'
+                    onFocus={e => e.target.type = 'date'} onBlur={e => e.target.type = 'text'}/>
             <input type = 'submit' value="Submit"/>
         </form>
     )
