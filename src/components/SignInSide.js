@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -61,11 +61,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
+  const email = useRef(null);
+  const password = useRef(null);
   let history = useHistory();
 
-  const handleClick =(e)=>{
-    console.log(e.target)
-    history.push('/warranty_timeline/dashboard')
+  const handleClick = ()=>{
+    console.log(email.current.value)
+    console.log(password.current.value)
+    // history.push('/warranty_timeline/dashboard')
    }
 
   return (
@@ -80,8 +83,9 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate >
             <TextField
+              inputRef={email}
               variant="outlined"
               margin="normal"
               required
@@ -93,6 +97,7 @@ export default function SignInSide() {
               autoFocus
             />
             <TextField
+              inputRef={password}
               variant="outlined"
               margin="normal"
               required
@@ -108,7 +113,6 @@ export default function SignInSide() {
               label="Remember me"
             />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
