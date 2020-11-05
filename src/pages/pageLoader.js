@@ -8,9 +8,9 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 
 
 function PageLoader(){
-    const isLogin = useRouteMatch("/warranty_timeline/logIn");
-    const isTimeLineList = useRouteMatch("/warranty_timeline/timeLineList");
-    const isDashBoard = useRouteMatch("/warranty_timeline");
+    const isLogin = useRouteMatch("/logIn");
+    const isTimeLineList = useRouteMatch("/timeLineList");
+    const isDashBoard = useRouteMatch("dashboard");
     let page = <div></div>
     if (isTimeLineList){
       page = <TimeLineList/>

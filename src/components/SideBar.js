@@ -10,13 +10,21 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+
+import ListItem from '@material-ui/core/ListItem';
+// --------- icon ------------------
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ShowChartTwoToneIcon from '@material-ui/icons/ShowChartTwoTone';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+// -----------------
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import translate from '../en'
 
 const drawerWidth = 240;
 
@@ -95,6 +103,9 @@ export default function SideBar({pageComponent}) {
     setOpen(false);
   };
 
+  const url = window.location.pathname.slice(1);
+  console.log(url)
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -117,7 +128,7 @@ export default function SideBar({pageComponent}) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            {translate(url) || ""}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -134,28 +145,43 @@ export default function SideBar({pageComponent}) {
           }),
         }}
       >
+        
         <div className={classes.toolbar}>
+          <Typography variant="h6" noWrap style ={{padding: "inherit"}}>
+            Wayne Shang 
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          ))} */}
+            <ListItem button key={"Product TimeLine List"}>
+              <ListItemIcon><EventNoteIcon /></ListItemIcon>
+              <ListItemText primary={"Product TimeLine List"} />
             </ListItem>
-          ))}
+
+            <ListItem button key={"Stock List"}>
+              <ListItemIcon><ShowChartTwoToneIcon /></ListItemIcon>
+              <ListItemText primary={"Stock List"} />
+            </ListItem>
+
+            <ListItem button key={"Wealth List"}>
+              <ListItemIcon><MonetizationOnIcon /></ListItemIcon>
+              <ListItemText primary={"Wealth List"} />
+            </ListItem>
+
+            <ListItem button key={"Physic Management"}>
+              <ListItemIcon><AccessibilityNewIcon /></ListItemIcon>
+              <ListItemText primary={"Physic Management"} />
+            </ListItem>
+
         </List>
       </Drawer>
       <main className={classes.content}>
