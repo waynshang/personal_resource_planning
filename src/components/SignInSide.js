@@ -19,7 +19,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="/warranty_timeline/logIn">
+      <Link color="inherit" href="/personal_resource_planning/logIn">
         The TimeLine Manager
       </Link>{' '}
       {new Date().getFullYear()}
@@ -68,7 +68,7 @@ export default function SignInSide() {
   const handleClick = ()=>{
     console.log(email.current.value)
     console.log(password.current.value)
-    // history.push('/warranty_timeline/dashboard')
+    // history.push('/personal_resource_planning/dashboard')
    }
 
   return (

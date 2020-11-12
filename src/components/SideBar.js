@@ -156,12 +156,7 @@ export default function SideBar({pageComponent}) {
         </div>
         <Divider />
         <List>
-          {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))} */}
+     
             <ListItem button key={"Product TimeLine List"}>
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
               <ListItemText primary={"Product TimeLine List"} />

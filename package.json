@@ -1,5 +1,5 @@
 {
-  "name": "warranty-timeline",
+  "name": "personal_resource_planning",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -42,8 +42,8 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "devDependencies": {},
-  "repository": "warranty-timeline",
+  "repository": "personal_resource_planning",
   "author": "wayneshang",
   "license": "ISC",
-  "homepage": "https://waynshang.github.io/warranty_timeline"
+  "homepage": "https://waynshang.github.io/personal_resource_planning"
 }

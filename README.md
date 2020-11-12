@@ -1,5 +1,5 @@
-# warranty_timeline<<<<<<< HEAD
-# warranty_timeline
+# personal_resource_planning<<<<<<< HEAD
+# personal_resource_planning
 =======
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
