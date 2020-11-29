@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,9 +13,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+import Alert from '@material-ui/lab/Alert';
 
+
+///---------auth
+import {useAuth} from "./AuthContext"
 function Copyright() {
-  console.log("Copyright")
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -31,15 +34,18 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+    backgroundImage: 'url(https://images.unsplash.com/photo-1464254786740-b97e5420c299?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1951&q=80)',//'url(https://source.unsplash.com/random)',
+    backgroundColor: '#383f42',
+    
   },
-  image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
+  // image: {
+  //   backgroundImage: 'url(https://i.pinimg.com/originals/d4/d5/5b/d4d55bc063c093fb45d326dbe24a942b.jpg)',//'url(https://source.unsplash.com/random)',
+  //   backgroundColor:
+  //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+  //   backgroundSize: 'cover',
+  //   backgroundPosition: 'center',
+  // },
+
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
@@ -48,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.dark//.default.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -63,6 +69,31 @@ export default function SignInSide() {
   const classes = useStyles();
   const email = useRef(null);
   const password = useRef(null);
+  const {signup} = useAuth();
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e){
+    e.preventDefault()
+    console.log('email: '+ email.current.value)
+    console.log('password: '+ password.current.value)
+    try{
+      setError('')
+      setLoading(true)
+      const result = await signup(email.current.value ,password.current.value)
+      console.log(result["message"])
+      setLoading(false)
+
+    } catch (error){
+      console.log("catch")
+      console.log(error["message"])
+      setError(error["message"])
+    }
+    console.log(error)
+    setLoading(false)
+
+  }
+
   let history = useHistory();
 
   const handleClick = ()=>{
@@ -72,18 +103,19 @@ export default function SignInSide() {
    }
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container component="main" className={classes.root} direction="row" justify="center" alignItems="center" >
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      {/* <Grid item xs={false} sm={4} md={7} className={classes.image} /> */}
+      <Grid item xs={6} md={4} component={Paper} elevation={6} square >
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+          <Avatar className={classes.avatar} style={{backgroundColor: '#515b5f'}}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate >
+          {error && <Alert severity="error">{error}</Alert>}
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               inputRef={email}
               variant="outlined"
@@ -115,20 +147,21 @@ export default function SignInSide() {
             <Button
               fullWidth
               variant="contained"
-              color="primary"
               className={classes.submit}
-              onClick={handleClick}
+              type = 'submit'
+              style={{backgroundColor: '#515b5f', color: '#e3f2fd'}}
+              disabled = {loading}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" style={{color: '#515b5f', fontWeight: "bold"}}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" style={{color: '#515b5f', fontWeight: "bold"}}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
