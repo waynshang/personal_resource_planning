@@ -22,10 +22,9 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" to="/logIn">
-        The TimeLine Manager
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+        Personal Resource
+      </Link>
+      {` ${new Date().getFullYear()}.`}
     </Typography>
   );
 }
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function SignUpSide() {
   const classes = useStyles();
   const email = useRef(null);
   const password = useRef(null);
@@ -96,7 +95,7 @@ export default function SignInSide() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign Up
           </Typography>
           {error && <Alert severity="error">{error}</Alert>}
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
@@ -124,10 +123,6 @@ export default function SignInSide() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               fullWidth
               variant="contained"
@@ -138,18 +133,7 @@ export default function SignInSide() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="#" variant="body2" style={{color: '#515b5f', fontWeight: "bold"}}>
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/SignUp" variant="body2" style={{color: '#515b5f', fontWeight: "bold"}}>
-                  Don't have an account? Sign Up
-                </Link>
-              </Grid>
-            </Grid>
+
             <Box mt={5}>
               <Copyright />
             </Box>
