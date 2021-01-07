@@ -59,6 +59,7 @@ export default function SignUpSide() {
   const {signup} = useAuth();
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  let history = useHistory();
 
   async function handleSubmit(e){
     e.preventDefault()
@@ -69,15 +70,12 @@ export default function SignUpSide() {
       setLoading(true)
       const result = await signup(email.current.value ,password.current.value)
       setLoading(false)
-
+      history.push('/')
     } catch (error){
       setError(error["message"])
     }
     setLoading(false)
-
   }
-
-  let history = useHistory();
 
   const handleClick = ()=>{
     console.log(email.current.value)

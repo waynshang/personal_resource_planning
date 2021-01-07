@@ -57,9 +57,10 @@ export default function SignInSide() {
   const classes = useStyles();
   const email = useRef(null);
   const password = useRef(null);
-  const {signup} = useAuth();
+  const {login} = useAuth();
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  let history = useHistory();
 
   async function handleSubmit(e){
     e.preventDefault()
@@ -68,17 +69,16 @@ export default function SignInSide() {
     try{
       setError('')
       setLoading(true)
-      const result = await signup(email.current.value ,password.current.value)
+      const result = await login(email.current.value ,password.current.value)
       setLoading(false)
-
+      console.log(result)
+      history.push('/')
     } catch (error){
       setError(error["message"])
     }
     setLoading(false)
-
   }
 
-  let history = useHistory();
 
   const handleClick = ()=>{
     console.log(email.current.value)

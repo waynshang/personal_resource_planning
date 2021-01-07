@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -18,8 +18,8 @@ import ListItem from '@material-ui/core/ListItem';
 // --------- icon ------------------
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import EventNoteIcon from '@material-ui/icons/EventNote';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ShowChartTwoToneIcon from '@material-ui/icons/ShowChartTwoTone';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
@@ -27,7 +27,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+// import MoreIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 
@@ -37,9 +37,13 @@ import sidebarStyle from '../css/sidebarStyle'
 
 // -----------------
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import translate from '../en'
+import {useAuth} from "./AuthContext"
+import { useHistory} from "react-router-dom";
+
+
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -68,6 +72,10 @@ export default function SideBar({pageComponent}) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const {logout} = useAuth();
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  let history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -94,6 +102,22 @@ export default function SideBar({pageComponent}) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  async function handleLogOut(){
+  
+    try{
+      setError('')
+      setLoading(true)
+      const result = await logout
+      console.log(result)
+      setLoading(false)
+      history.push('/logIn')
+    } catch (error){
+      setError(error["message"])
+    }
+    setLoading(false)
+  }
+
   const menuId = 'primary-search-account-menu';
 
   const renderMenu = (
@@ -108,6 +132,7 @@ export default function SideBar({pageComponent}) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
   );
 
