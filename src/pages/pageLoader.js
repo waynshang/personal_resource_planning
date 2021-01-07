@@ -1,30 +1,12 @@
 import React, {Fragment, Suspense, lazy } from 'react';
-// import TimeLineList from './timelineListPage'
-// import SignInPage from './logInPage'
-// import SignUpPage from './signUpPage'
-// import Dashboard from './dashBoardPage'
+
 import SideBar from '../components/SideBar'
-import { useRouteMatch, useHistory, BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Redirect, useRouteMatch, useHistory, BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {AuthProvider} from '../components/AuthContext'
+import {useAuth} from '../components/AuthContext'
 import { Container, makeStyles } from '@material-ui/core';
-// function PageLoader(){
-//     const isLogin = useRouteMatch("/logIn");
-//     const isTimeLineList = useRouteMatch("/timeLineList");
-//     const isDashBoard = useRouteMatch("dashboard");
-//     let page = <div></div>
-//     if (isTimeLineList){
-//       page = <TimeLineList/>
-//     }
-//     else if(isLogin){
-//       page = <SignInPage/>
-//     }
-//     else if(isDashBoard){
-//       page = <Dashboard/>
-//     }
-//     return (
-//       page
-//     )
-// }
+import PrivateRoute from '../components/PrivateRoute';
+
 const useStyles= makeStyles((theme) => ({
   container: {
     height: '100vh',
@@ -33,6 +15,7 @@ const useStyles= makeStyles((theme) => ({
     maxWidth: "none"
   }
 }))
+
 function PageLoader(){
   
   const DashBoardPage = lazy(() => import("./dashBoardPage"));
@@ -54,21 +37,15 @@ function PageLoader(){
             {needSideBar ?
             <SideBar>
               <Switch>
-                <Route exact path="/">
-                  <DashBoardPage/>
-                </Route>
+                <PrivateRoute exact path="/" component={DashBoardPage} toDashboard ={true}/>
                 <Route path="/timeLineList">
                   <TimeLineList/>
                 </Route>
               </Switch>
             </SideBar> :
             <Switch>
-              <Route path="/signUp">
-                <SignUpPage/>
-              </Route>
-              <Route path="/logIn">
-                <SignInPage/>
-              </Route>
+              <PrivateRoute path="/signUp" component={SignUpPage} toDashboard ={false}/>
+              <PrivateRoute path="/logIn" component={SignInPage} toDashboard ={false}/>
             </Switch>
             }
           </AuthProvider>
