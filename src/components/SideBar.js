@@ -72,7 +72,7 @@ export default function SideBar({pageComponent}) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const {logout} = useAuth();
+  const {logout, currentUser} = useAuth();
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   let history = useHistory();
@@ -108,8 +108,7 @@ export default function SideBar({pageComponent}) {
     try{
       setError('')
       setLoading(true)
-      const result = await logout
-      console.log(result)
+      const result = await logout()
       setLoading(false)
       history.push('/logIn')
     } catch (error){
@@ -198,7 +197,7 @@ export default function SideBar({pageComponent}) {
         
         <div className={classes.drawerHeader} style ={{display: "flex", justifyContent: "center"}}>
           <Typography variant="h6" noWrap >
-            Wayne Shang 
+            {currentUser.displayName || "Please Update Profile"}
           </Typography>
         </div>
         <Divider />

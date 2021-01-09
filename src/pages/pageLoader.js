@@ -1,11 +1,11 @@
 import React, {Fragment, Suspense, lazy } from 'react';
 
-import SideBar from '../components/SideBar'
 import { Redirect, useRouteMatch, useHistory, BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import {AuthProvider} from '../components/AuthContext'
-import {useAuth} from '../components/AuthContext'
+import {AuthProvider, useAuth} from '../components/AuthContext'
 import { Container, makeStyles } from '@material-ui/core';
 import PrivateRoute from '../components/PrivateRoute';
+import {auth} from '../firebase'
+
 
 const useStyles= makeStyles((theme) => ({
   container: {
@@ -28,26 +28,21 @@ function PageLoader(){
   const needSideBar = !(isLogin || isSignUp)
   const classes = useStyles();
   let containerClass = !needSideBar ? classes.container : null
+  auth.onAuthStateChanged((user) => {
+    console.log("user:", user)
+  })
 
   return(
     <Container className="d-flex align-items-center justify-content-center container" className={containerClass}>
       <div className="w-100">
         <Suspense fallback={<Fragment />}>
           <AuthProvider>
-            {needSideBar ?
-            <SideBar>
-              <Switch>
-                <PrivateRoute exact path="/" component={DashBoardPage} toDashboard ={true}/>
-                <Route path="/timeLineList">
-                  <TimeLineList/>
-                </Route>
-              </Switch>
-            </SideBar> :
             <Switch>
-              <PrivateRoute path="/signUp" component={SignUpPage} toDashboard ={false}/>
-              <PrivateRoute path="/logIn" component={SignInPage} toDashboard ={false}/>
+              <PrivateRoute exact path="/" component={DashBoardPage} toDashboard ={true}/>
+              <PrivateRoute path="/timeLineList" component={TimeLineList} toDashboard ={true}/>    
+              <PrivateRoute path="/signUp" component={SignUpPage} toDashboard ={false} className={classes.container }/>
+              <PrivateRoute path="/logIn" component={SignInPage} toDashboard ={false} className={classes.container }/>     
             </Switch>
-            }
           </AuthProvider>
         </Suspense>
       </div>
