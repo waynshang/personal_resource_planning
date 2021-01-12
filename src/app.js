@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PageLoader from './pages/pageLoader'
 
 
@@ -7,6 +7,11 @@ import PageLoader from './pages/pageLoader'
 
 
 function App(){
+    useEffect(()=>{
+      const favIcon = document.getElementById("favicon");
+      if (process.env.NODE_ENV === 'production'){favIcon.href = 'moon.png'}
+      }, []
+    )
     return (
         <PageLoader/>
     )

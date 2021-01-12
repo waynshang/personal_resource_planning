@@ -39,6 +39,7 @@ function PageLoader(){
           <AuthProvider>
             <Switch>
               <PrivateRoute exact path="/" component={DashBoardPage} toDashboard ={true}/>
+              <PrivateRoute exact path="/profile" component={DashBoardPage} toDashboard ={true}/>
               <PrivateRoute path="/timeLineList" component={TimeLineList} toDashboard ={true}/>    
               <PrivateRoute path="/signUp" component={SignUpPage} toDashboard ={false} className={classes.container }/>
               <PrivateRoute path="/logIn" component={SignInPage} toDashboard ={false} className={classes.container }/>     
