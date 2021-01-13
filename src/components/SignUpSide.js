@@ -87,7 +87,7 @@ export default function SignUpSide() {
     <Grid container component="main" className={classes.root} direction="row" justify="center" alignItems="center" >
       <CssBaseline />
       {/* <Grid item xs={false} sm={4} md={7} className={classes.image} /> */}
-      <Grid item xs={6} md={4} lg={4} component={Paper} elevation={6} square >
+      <Grid item xs={6} md={4} lg={3} component={Paper} elevation={6} square >
         <div className={classes.paper}>
           <Avatar className={classes.avatar} style={{backgroundColor: '#515b5f'}}>
             <LockOutlinedIcon />
@@ -131,7 +131,13 @@ export default function SignUpSide() {
             >
               Sign In
             </Button>
-
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link to="/logIn" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
             <Box mt={5}>
               <Copyright />
             </Box>

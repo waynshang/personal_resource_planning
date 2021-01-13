@@ -22,6 +22,16 @@ export function AuthProvider({children}){
   function logout() {
     return auth.signOut()
   }
+  function updateCurrentUserProfile(firstName, lastName){
+    const displayName = firstName + ' ' + lastName
+    const currentUser = auth.currentUser
+    return currentUser.updateProfile({displayName: displayName})
+  }
+  function updatePhoneNumber(phoneNumber){
+    const currentUser = auth.currentUser
+    return currentUser.updatePhoneNumber(phoneNumber)
+
+  }
 
 
   useEffect(() => {
@@ -39,7 +49,7 @@ export function AuthProvider({children}){
     return unsubscribe
   },[])
 
-  const value = {currentUser, signup, login, logout}
+  const value = {currentUser, signup, login, logout, updateCurrentUserProfile, updatePhoneNumber}
 
   //賦全域變數值
   return (

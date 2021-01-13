@@ -67,6 +67,7 @@ HideOnScroll.propTypes = {
 const useStyles = makeStyles((theme) => (sidebarStyle(theme)));
 
 export default function SideBar({pageComponent}) {
+  console.log(pageComponent)
   const classes = useStyles();
   // const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -75,6 +76,7 @@ export default function SideBar({pageComponent}) {
   const {logout, currentUser} = useAuth();
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  console.log(currentUser)
   let history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
@@ -99,6 +101,12 @@ export default function SideBar({pageComponent}) {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
+
+  const handleRedirect = (url) => () => {
+    handleMenuClose()
+    history.push('/'+url)
+
+  }
   // const handleMobileMenuOpen = (event) => {
   //   setMobileMoreAnchorEl(event.currentTarget);
   // };
@@ -129,7 +137,7 @@ export default function SideBar({pageComponent}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleRedirect('profile')}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>

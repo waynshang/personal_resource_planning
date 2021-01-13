@@ -6,13 +6,13 @@ import SideBar from './SideBar'
 
 export default function PrivateRoute({component: Component, ...rest }) {
   const {currentUser} = useAuth()
+  console.log(Component)
 
   return (
     <Route {...rest}
       render={props => { 
-          console.log(props)
           if (rest.toDashboard){
-            return currentUser ? <SideBar><Component {...props}/></SideBar> : <Redirect to="/logIn" />
+            return currentUser ? <SideBar pageComponent = {<Component/>}></SideBar> : <Redirect to="/logIn" />
           } else {
             return currentUser ? <Redirect to="/"/> : <Component {...props}/>
           }
