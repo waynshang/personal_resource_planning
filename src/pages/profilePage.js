@@ -16,6 +16,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 
+import {isPresent} from '../Common'
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -36,15 +38,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function ProfilePage(props) {
-  console.log("profile")
-  const methods = useForm();
-  const { register, handleSubmit } = methods;
+  // console.log("profile")
   const [error, setError] = useState('')
-  const {updateCurrentUserProfile, updatePhoneNumber} = useAuth();
+  const {updateCurrentUserProfile, updatePhoneNumber, currentUser} = useAuth();
   const classes = useStyles();
-  async function handleUpdateProfile(data){
-    console.log(data)
+  const displayName = currentUser.displayName || ""
+  const defaultFirstName = displayName.split(' ')[0].trim()
+  const defaultLastName = displayName.split(' ')[1] ? displayName.split(' ')[1].trim() : ''
 
+  //react hook form
+  const methods = useForm({
+    defaultValues: {
+      firstName: defaultFirstName,
+      lastName: defaultLastName,
+      phoneNumber: currentUser.phoneNumber
+    }
+  });
+  const { register, handleSubmit, errors } = methods;
+
+  async function handleUpdateProfile(data){
+    // console.log("handleUpdateProfile")
+    // console.log(data)
     setError('')
     try{
       if(data.firstName || data.lastName) await updateCurrentUserProfile(data.firstName, data.lastName)
@@ -52,7 +66,6 @@ function ProfilePage(props) {
     }catch(error){
       setError(error["message"])
     }
-    
   }
 
   return (
@@ -80,6 +93,8 @@ function ProfilePage(props) {
                   label="First Name"
                   autoFocus
                   inputRef={register}
+                  error={isPresent(errors.firstName)}
+                  helperText={isPresent(errors.firstName) ? "Required" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -91,7 +106,9 @@ function ProfilePage(props) {
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
-                  inputRef={register}
+                  inputRef={register({required: true})}
+                  error={isPresent(errors.lastName)}
+                  helperText={isPresent(errors.lastName) ? "Required" : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
@@ -102,7 +119,6 @@ function ProfilePage(props) {
                   id="phoneNumber"
                   label="Phone Number"
                   name="phoneNumber"
-                  autoComplete="pnumber"
                   inputRef={register}
                 />
               </Grid>
