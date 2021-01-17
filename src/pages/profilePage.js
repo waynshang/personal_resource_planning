@@ -16,11 +16,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 
+
 import {isPresent} from '../Common'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    // marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -40,11 +41,14 @@ const useStyles = makeStyles((theme) => ({
 function ProfilePage(props) {
   // console.log("profile")
   const [error, setError] = useState('')
+  const [successMsg, setSuccessMsg] = useState('')
+
   const {updateCurrentUserProfile, updatePhoneNumber, currentUser} = useAuth();
   const classes = useStyles();
   const displayName = currentUser.displayName || ""
   const defaultFirstName = displayName.split(' ')[0].trim()
   const defaultLastName = displayName.split(' ')[1] ? displayName.split(' ')[1].trim() : ''
+
 
   //react hook form
   const methods = useForm({
@@ -62,6 +66,7 @@ function ProfilePage(props) {
     setError('')
     try{
       if(data.firstName || data.lastName) await updateCurrentUserProfile(data.firstName, data.lastName)
+      setSuccessMsg('Update Profile Success')
       // if (data.phoneNumber) await updatePhoneNumber(data.phoneNumber)
     }catch(error){
       setError(error["message"])
@@ -79,6 +84,8 @@ function ProfilePage(props) {
           Update Profile
         </Typography>
         {error && <Alert severity="error">{error}</Alert>}
+        {isPresent(successMsg) && <Alert severity="success">{successMsg}</Alert>}
+
         {/* <FormProvider {...methods}> // pass all methods into the context */}
           <form className={classes.form} noValidate onSubmit={handleSubmit(handleUpdateProfile)} >
             <Grid container spacing={2}>

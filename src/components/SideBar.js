@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, lazy} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -30,7 +30,6 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 // import MoreIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-
 //------style 
 import sidebarStyle from '../css/sidebarStyle'
 
@@ -42,6 +41,10 @@ import MailIcon from '@material-ui/icons/Mail';
 import translate from '../en'
 import {useAuth} from "./AuthContext"
 import { useHistory} from "react-router-dom";
+
+// -----self component
+import FormDialog from './Dialog'
+import { Dialog } from '@material-ui/core';
 
 
 
@@ -69,15 +72,21 @@ const useStyles = makeStyles((theme) => (sidebarStyle(theme)));
 export default function SideBar({pageComponent}) {
   console.log(pageComponent)
   const classes = useStyles();
-  // const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const {logout, currentUser} = useAuth();
+
+  //useState
+  const [open, setOpen] = useState(false);
+  const [dialogData, setDialogData] = useState({open: false});
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  console.log(currentUser)
+
+  const {logout, currentUser} = useAuth();
+
   let history = useHistory();
+
+  const ProfilePage = lazy(() =>  import('../pages/profilePage'));
+
 
   const isMenuOpen = Boolean(anchorEl);
   // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -105,7 +114,18 @@ export default function SideBar({pageComponent}) {
   const handleRedirect = (url) => () => {
     handleMenuClose()
     history.push('/'+url)
+  }
 
+  const handleOpenDialog = (type) => () => {
+    const data  = {};
+    switch (type){
+      case 'profile':
+        data["open"] = true
+        // data["title"] = "Update Profile"
+        // data["text"] = "Please update your basic personal info"
+        data["Component"] = ProfilePage
+    }
+    setDialogData(data)
   }
   // const handleMobileMenuOpen = (event) => {
   //   setMobileMoreAnchorEl(event.currentTarget);
@@ -137,7 +157,7 @@ export default function SideBar({pageComponent}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleRedirect('profile')}>Profile</MenuItem>
+      <MenuItem onClick={handleOpenDialog('profile')}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
@@ -193,6 +213,7 @@ export default function SideBar({pageComponent}) {
           </Toolbar>
         </AppBar>
       </HideOnScroll>
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -233,10 +254,14 @@ export default function SideBar({pageComponent}) {
 
         </List>
       </Drawer>
+
+      {dialogData.open && <FormDialog data = {dialogData}/>}
+      
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {pageComponent}
       </main>
+      
     </div>
   );
 }
