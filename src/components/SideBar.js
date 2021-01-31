@@ -85,7 +85,7 @@ export default function SideBar({pageComponent}) {
 
   let history = useHistory();
 
-  const ProfilePage = lazy(() =>  import('../pages/profilePage'));
+  const ProfileComponent = lazy(() =>  import('./ProfileUpdate'));
 
 
   const isMenuOpen = Boolean(anchorEl);
@@ -123,9 +123,10 @@ export default function SideBar({pageComponent}) {
         data["open"] = true
         // data["title"] = "Update Profile"
         // data["text"] = "Please update your basic personal info"
-        data["Component"] = ProfilePage
+        data["Component"] = ProfileComponent
     }
     setDialogData(data)
+    handleMenuClose()
   }
   // const handleMobileMenuOpen = (event) => {
   //   setMobileMoreAnchorEl(event.currentTarget);
@@ -232,7 +233,7 @@ export default function SideBar({pageComponent}) {
         <Divider />
         <List>
      
-            <ListItem button key={"Product TimeLine List"}>
+            <ListItem button key={"Product TimeLine List"} onClick={handleRedirect("ProductTimeLinePage")}>
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
               <ListItemText primary={"Product TimeLine List"} />
             </ListItem>
@@ -255,7 +256,7 @@ export default function SideBar({pageComponent}) {
         </List>
       </Drawer>
 
-      {dialogData.open && <FormDialog data = {dialogData}/>}
+      {dialogData.open && <FormDialog data = {dialogData} handleMenuClose ={handleMenuClose}/>}
       
       <main className={classes.content}>
         <div className={classes.toolbar} />

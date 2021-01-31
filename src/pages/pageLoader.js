@@ -19,10 +19,10 @@ const useStyles= makeStyles((theme) => ({
 function PageLoader(){
   
   const DashBoardPage = lazy(() => import("./dashBoardPage"));
-  const ProfilePage = lazy(() =>  import('./profilePage'));
   const TimeLineList = lazy(() => import('./timelineListPage'));
   const SignInPage = lazy(() => import('./logInPage'));
   const SignUpPage = lazy(() =>  import('./signUpPage'));
+  const ProductTimeLinePage = lazy(() =>import('./productTimeLinePage'))
 
   const isLogin = useRouteMatch("/logIn");
   const isSignUp = useRouteMatch("/signUp");
@@ -40,7 +40,7 @@ function PageLoader(){
           <AuthProvider>
             <Switch>
               <PrivateRoute exact path="/" component={DashBoardPage} toDashboard ={true}/>
-              <PrivateRoute path="/profile" component={ProfilePage} toDashboard ={true}/>
+              <PrivateRoute path="/ProductTimeLinePage" component={ProductTimeLinePage} toDashboard ={true}/> 
               <PrivateRoute path="/timeLineList" component={TimeLineList} toDashboard ={true}/>    
               <PrivateRoute path="/signUp" component={SignUpPage} toDashboard ={false} className={classes.container }/>
               <PrivateRoute path="/logIn" component={SignInPage} toDashboard ={false} className={classes.container }/>     

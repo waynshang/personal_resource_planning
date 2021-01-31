@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import { useForm, FormProvider } from "react-hook-form";
-import {useAuth} from "../components/AuthContext"
+import {useAuth} from "./AuthContext"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-function ProfilePage(props) {
+function ProfileComponent(props) {
   // console.log("profile")
   const [error, setError] = useState('')
   const [successMsg, setSuccessMsg] = useState('')
@@ -67,6 +67,7 @@ function ProfilePage(props) {
     try{
       if(data.firstName || data.lastName) await updateCurrentUserProfile(data.firstName, data.lastName)
       setSuccessMsg('Update Profile Success')
+      props.handleClose()
       // if (data.phoneNumber) await updatePhoneNumber(data.phoneNumber)
     }catch(error){
       setError(error["message"])
@@ -154,4 +155,4 @@ function ProfilePage(props) {
   );
 }
 
-export default ProfilePage;
+export default ProfileComponent;

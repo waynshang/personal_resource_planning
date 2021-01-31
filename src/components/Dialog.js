@@ -1,19 +1,24 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, forwardRef} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 
-export default function FormDialog({data}) {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function FormDialog(props) {
   console.log('FormDialog')
-  const {title, text, Component, open} = data
+  const {title, text, Component, open} = props.data
 
   const [openDialog, setOpenDialog] = useState(open);
   useEffect(() => {
     setOpenDialog(open);
-  }, [data])
+  }, [props.data])
 
   const handleClickOpen = () => {
     setOpenDialog(true);
@@ -21,18 +26,19 @@ export default function FormDialog({data}) {
 
   const handleClose = () => {
     setOpenDialog(false);
+    props.handleMenuClose()
   };
-  console.log(openDialog)
 
   return (
     <div>
-      <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title"
+              TransitionComponent={Transition}>
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             {text}
           </DialogContentText>
-          <Component/>
+          <Component handleClose={handleClose}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
